@@ -20,8 +20,26 @@ const markup = galleryItems
 gallery.innerHTML = markup;
 
 const linkEvent = (e) => {
+  let link;
   e.preventDefault();
-  console.log(e);
+
+  if (e.target.nodeName === "IMG") {
+    link = e.target.getAttribute("data-source");
+  }
+
+  const originalImage = basicLightbox.create(`
+    <img src="${link}" width="800" height="600">
+`);
+
+  originalImage.show();
+
+  const escape = (e) => {
+    if (e.key === "Escape") {
+      originalImage.close();
+    }
+  };
+
+  gallery.addEventListener("keydown", escape);
 };
 
 gallery.addEventListener("click", linkEvent);
